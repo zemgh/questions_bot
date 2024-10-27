@@ -1,0 +1,44 @@
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres:16.4
+    env_file:
+      - .env
+    restart: always
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  api:
+    container_name: api
+    build: ./api
+    env_file:
+      - .env
+    volumes:
+      - /home/questions_bot/questions.txt:/app/api/questions.txt
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+
+  bot:
+    container_name: bot
+    build: ./bot
+    env_file:
+      - .env
+    command: python main.py
+    ports:
+      - 80:80
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+
