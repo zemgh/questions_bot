@@ -30,10 +30,7 @@ class GetRandomQuestion(APIView):
             )
 
         except Exception as e:
-            return Response(
-                data={'data': e},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def _create_question_service(self):
         return self.service(

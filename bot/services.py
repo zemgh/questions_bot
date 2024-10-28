@@ -15,20 +15,20 @@ class QuestionService:
     def __init__(self, telegram_id: Union[int, str]):
         self._url = self.BASE_URL + str(telegram_id)
 
-    async def get_question(self) -> str:
+    async def get_question(self) -> dict:
         session = aiohttp.ClientSession()
 
         try:
             response = await session.get(self._url)
             data = await response.json()
-
-            if response.status in (200, 404):
-                return data.get('data', None)
-
-            return 'Something went wrong ...'
+            return {
+                'text': data['data'],
+                'status': response.status
+            }
 
         except Exception as e:
-            return f'error: {e}'
+            # log
+            print(f'[ERROR]: {e}')
 
         finally:
             await session.close()

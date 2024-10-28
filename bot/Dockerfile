@@ -8,6 +8,6 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt /app/bot
 RUN pip install -r requirements.txt
 
-EXPOSE 80
+EXPOSE 8001
 
 COPY . /app/bot

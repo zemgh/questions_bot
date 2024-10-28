@@ -16,5 +16,13 @@ async def cmd_start(message: types.Message):
 async def cmd_next(message: types.Message):
     user_id = message.from_user.id
     service = QuestionService(user_id)
-    text = await service.get_question()
-    await message.answer(text)
+
+    result = await service.get_question()
+
+    if result:
+        if result['status'] in (200, 404):
+            text = result['text']
+            return await message.answer(text)
+
+    text = 'Something went wrong ...'
+    return await message.answer(text)

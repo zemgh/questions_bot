@@ -2,5 +2,7 @@ edit .env
 
 docker exec api python manage.py migrate
 
-Добавление вопросов по пути /home/questions_bot/questions.txt:
+bash get_cert.sh
+
+Добавление вопросов по пути /home/src/questions.txt:
 docker exec api python manage.py add_questions /app/api/questions.txt

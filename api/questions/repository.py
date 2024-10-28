@@ -11,14 +11,14 @@ class QuestionRepository:
 
     def _get_answered_questions(self, user) -> list[int]:
         queryset = user.answers.all()
-        answered_questions = [a.question.id for a in queryset]
+        answered_id_lst = [answer.question.id for answer in queryset]
         all_questions_count = Question.objects.count()
 
-        if len(answered_questions) >= all_questions_count:
+        if len(answered_id_lst) >= all_questions_count:
             self._clear_answers(user)
             return []
 
-        return list(answered_questions)
+        return list(answered_id_lst)
 
     def _clear_answers(self, user):
         user.answers.all().delete()
